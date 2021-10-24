@@ -1,4 +1,4 @@
-import { AttachFile, MoreVert, SearchOutlined } from '@mui/icons-material';
+import { AttachFile, InsertEmoticon, Mic, MoreVert, SearchOutlined } from '@mui/icons-material';
 import { Avatar, IconButton } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import './Chat.css';
@@ -42,7 +42,12 @@ function Chat() {
             </div>
 
             <div className="chat__footer">
-                
+                <InsertEmoticon/>
+                <form>
+                    <input type="text" placeholder="Type a message"/>
+                    <button type="submit">Send a message</button>
+                </form>
+                <Mic/>
             </div>
         </div>
     )

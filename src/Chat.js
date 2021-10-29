@@ -10,12 +10,19 @@ function Chat() {
     const [seed, setSeed] = useState('');
     const { roomId } = useParams();
     const [roomName, setRoomName] = useState('');
+    const [messages, setMessages] = useState([]);
 
     useEffect(() => {
         if (roomId) {
             db.collection('rooms').doc(roomId).onSnapshot((snapshot) => 
                 setRoomName(snapshot.data().name)
             );
+
+            db.collection('rooms').doc(roomId)
+              .collection('messages').orderBy('timestamp', 'asc')
+              .onSnapshot(snapshot => (
+                  setMessages(snapshot.docs.map(doc => doc.data()))
+              ));
         }
     }, [roomId]);
 
@@ -53,11 +60,15 @@ function Chat() {
             </div>
 
             <div className="chat__body">
-                <div className={`chat__message ${true && "chat__receiver"}`}>
-                    <span className="chat__name">Ilham</span>
-                    Hey guys
-                    <span className="chat__timestamps">3:52pm</span>
-                </div>
+                {messages.map(message => (
+                    <div className={`chat__message ${true && "chat__receiver"}`}>
+                        <span className="chat__name">{message.name}</span>
+                            {message.message}
+                        <span className="chat__timestamps">
+                            {new Date(message.timestamp?.toDate()).toUTCString()}
+                        </span>
+                    </div>
+                ))}
             </div>
 
             <div className="chat__footer">

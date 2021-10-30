@@ -26,6 +26,7 @@ function Chat() {
               .onSnapshot(snapshot => (
                   setMessages(snapshot.docs.map(doc => doc.data()))
               ));
+              
         }
     }, [roomId]);
 
@@ -75,8 +76,9 @@ function Chat() {
             </div>
 
             <div className="chat__body">
-                {messages.map(message => (
+                {messages.map((message,index) => (
                     <p 
+                        key={index}
                         className={`chat__message ${message.name === user.displayName && "chat__receiver"}`}
                     >
                         <span className="chat__name">{message.name}</span>
